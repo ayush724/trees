@@ -1,0 +1,385 @@
+Trees
+
+Terminology : 1 Root(Topmost node)
+              2 Parent(Node which connects to the child)
+              3 Child(Node which is connected by another node is its child)
+              4 Leaf/External node(Does not connect to any other node i.e which cant become parent or the node having no children)
+              5 Internal node: Nodes with atleast ome child.
+
+Depth of the node: Number of edges from root to that node. For eg ,the depth of root node will be 0.
+Height of the node: Number of edges from node to the deepest leaf.
+Sibling : Nodes belonging to the same parent.
+
+Binary Tree: The degree of node is 2 or less than 2.
+Binary tree is a tree which has atmost 2 children for all the nodes.
+1 Tree is made up of nodes and edges.
+2 n nodes= n-1 edges.
+3 Degree = No of direct children(for a node).
+4 Degree of a tree is the highest degree of the node amaong all the nodes present in the tree.
+5 Binary tree = Tree of degree <=2 and nodes can have 0,1 or 2 children.
+
+TYPES OF BINARY TREES
+Tree is a non linear data structure.
+1 Full or strict binary tree : All nodes have either o or 2 children.
+
+2 Perfect binary tree : Internal nodes have 2 children and all leaf leaf nodes are on same level.
+
+3 Complete binary tree : All levels are completely filled except possibly the last level
+plus last level must have its keys as left as possible.
+
+4 Degenerate tree :Every parent node has exactly one child.
+
+5 Skewed Trees : Left skewed(all childrens are towards the left) and Right skewed trees(all chidrens are towards thr right).
+
+REPRESENTATION OF A BINARY TREE
+
+1 Array Representation
+2 Linked Representation : Here we will use a doubly linked list
+
+#include<stdio.h>
+#include<malloc.h>
+
+struct node{
+int data;
+struct node*left;
+struct node*right;
+};
+
+struct node* createNode(int data)
+{
+ n = (struct node*)malloc(sizeof(struct node)); //Allocating memory in the heap
+ n->data = 2; //Setting the data
+ n->left = NULL; //Setting the left and right children to NULL
+ n->right = NULL; // Setting the left and right children to NULL
+ return n; // Finally returnig the created node
+}
+
+int main(){
+ //Constructing the root node
+ struct node*p;
+ p = (struct node*) malloc(sizeof(struct node));
+ p->data = 2;
+ p->left = NULL;
+ p->right = NULL;
+ 
+ //Constructing the first node
+ struct node*p1;
+ p1 = (struct node*) malloc(sizeof(struct node));
+ p1->data = 1;
+ p1->left = NULL;
+ p1->right = NULL;
+ 
+ //Constructing the second node
+ struct node*p2;
+ p2 = (struct node*) malloc(sizeof(struct node));
+ p2->data = 4;
+ p2->left = NULL;
+ p2->right = NULL;
+ 
+ //Linking the root node with left and right children
+ p->left = p1;
+ p->right = NULL;
+ return 0;
+
+ struct node*p = createNode(2);
+ struct node*p1 = createNode(1);
+ struct node*p2 = createNode(4);
+
+ p->left = p1;
+ p->right = p2;
+ return 0;
+
+}
+
+
+Iterative Search in a Binary Search Tree
+
+struct node*searchIter(struct node* root, int key)
+{
+  while(root!=NULL){
+    if(key == root->data){
+      return root;
+     }
+    else if(key<root->data){
+       root = root->left;
+    else{
+       root = root->right;
+    }
+ }
+ return NULL;
+}
+
+
+Insertion in a Binary Search Tree
+
+#include<stdio.h>
+#include<malloc.h>
+
+struct node{
+    int data;
+    struct node* left;
+    struct node* right;
+};
+
+struct node* createNode(int data){
+    struct node *n; // creating a node pointer
+    n = (struct node *) malloc(sizeof(struct node)); // Allocating memory in the heap
+    n->data = data; // Setting the data
+    n->left = NULL; // Setting the left and right children to NULL
+    n->right = NULL; // Setting the left and right children to NULL
+    return n; // Finally returning the created node
+}
+
+void preOrder(struct  node* root){
+    if(root!=NULL){
+        printf("%d ", root->data);
+        preOrder(root->left);
+        preOrder(root->right);
+    }
+}
+
+void postOrder(struct  node* root){
+    if(root!=NULL){
+        postOrder(root->left);
+        postOrder(root->right);
+        printf("%d ", root->data);
+    }
+}
+
+void inOrder(struct  node* root){
+    if(root!=NULL){
+        inOrder(root->left);
+        printf("%d ", root->data);
+        inOrder(root->right);
+    }
+}
+
+int isBST(struct  node* root){
+    static struct node *prev = NULL;
+    if(root!=NULL){
+        if(!isBST(root->left)){
+            return 0;
+        }
+        if(prev!=NULL && root->data <= prev->data){
+            return 0;
+        }
+        prev = root;
+        return isBST(root->right);
+    }
+    else{
+        return 1;
+    }
+}
+
+struct node * searchIter(struct node* root, int key){
+    while(root!=NULL){
+        if(key == root->data){
+            return root;
+        }
+        else if(key<root->data){
+            root = root->left;
+        }
+        else{
+            root = root->right;
+        }
+    }
+    return NULL;
+}
+
+void insert(struct node *root, int key){
+   struct node *prev = NULL;
+   while(root!=NULL){
+       prev = root;
+       if(key==root->data){
+           printf("Cannot insert %d, already in BST", key);
+           return;
+       }
+       else if(key<root->data){
+           root = root->left;
+       }
+       else{
+           root = root->right;
+       }
+   }
+   struct node* new = createNode(key);
+   if(key<prev->data){
+       prev->left = new;
+   }
+   else{
+       prev->right = new;
+   }
+
+}
+
+int main(){
+     
+    // Constructing the root node - Using Function (Recommended)
+    struct node *p = createNode(5);
+    struct node *p1 = createNode(3);
+    struct node *p2 = createNode(6);
+    struct node *p3 = createNode(1);
+    struct node *p4 = createNode(4);
+    // Finally The tree looks like this:
+    //      5
+    //     / \
+    //    3   6
+    //   / \
+    //  1   4  
+
+    // Linking the root node with left and right children
+    p->left = p1;
+    p->right = p2;
+    p1->left = p3;
+    p1->right = p4;
+
+    insert(p, 16);
+    printf("%d", p->right->right->data);
+    return 0;
+}
+
+
+Binary Tree- PreOrder Traversal
+
+Root-> Left-> Right
+
+Preorder code:
+
+void preorder(struct node*root){
+ if(root!=NULL){
+ printf(root->data);
+ preorder(root->left);
+ preorder(root->right);
+}
+}
+
+#include<stdio.h>
+#include<malloc.h>
+
+struct node{
+  int data;
+  struct node*left;
+  struct node*right;
+ };
+
+struct node*createNode(int data){
+  struct node*n;
+  n = (struct node*)malloc(sizeof(struct node));
+  n->data = data;
+  n->left = NULL;
+  n->right = NULL;
+  return n;
+}
+
+void preOrder(struct node*root)
+{
+   if(root!=NULL){
+     printf("%d",root->data);
+     preOrder(root->left);
+     preOrder(root->right);
+ }
+
+int main()
+{
+  struct node*p = createNode(4);
+  struct node*p = createNode(1);
+  struct node*p = createNode(6);
+  struct node*p = createNode(5);
+  struct node*p = createNode(2);
+  
+            4
+         /      \
+         1       6
+         /\
+        5  2
+   p->left = p1;
+   p->right = p2;
+   p->left = p3;
+   p->right = p4;
+
+ return 0;
+}
+ 
+  
+Inorder Traversal
+
+Left-> root-> right
+
+       4
+    /     \
+    1     6
+   /\
+  5  2
+ 
+Postorder traversal = 5 1 2 4 6
+
+void inorder(struct node*root)
+{
+  if(root!=null){
+  inorder(root->left);
+  printf("%d",root->data);
+  inorder(root->right);
+  
+}
+}
+
+
+Postorder Traversal
+
+Left-> right-> root
+
+       4
+    /     \
+    1     6
+   /\
+  5  2
+ 
+Postorder traversal = 5 2 1 6 4
+
+void postorder(node*root)
+{
+  if(root!=null){
+  postorder(root->left);
+  postorder(root->right);
+  printf("%d",root->data);
+}
+
+ C program for postOrder
+
+#include <stdio.h>
+#include<stdio.h>
+#include<malloc.h>
+
+struct node{
+  int data;
+  struct node*left;
+  struct node*right;
+ };
+
+struct node*createNode(int data){
+  struct node*n;
+  n = (struct node*)malloc(sizeof(struct node));
+  n->data = data;
+  n->left = NULL;
+  n->right = NULL;
+  return n;
+}
+
+void postOrder(struct node*root)
+{
+   if(root!=NULL){
+     postOrder(root->left);
+     postOrder(root->right);
+     printf("%d",root->data);
+ }
+
+int main()
+{
+  struct node *p = createNode(4);
+  struct node*p = createNode(1);
+  struct node*p = createNode(6);
+  struct node*p = createNode(5);
+  struct node*p = createNode(2);
+  postOrder(p);
+
+ return 0;
+}
